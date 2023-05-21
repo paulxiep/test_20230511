@@ -59,8 +59,8 @@ def do_join_3(causal, transaction, product, drop_store=True):
     df['weight_sold_per_week'] = df['units'] * df['product_size'] / df['week']
     return df
 
-
-def do_explore_demographics(causal, transaction, product, store, county):
+@st.cache_data
+def do_explore_demographics(causal, transaction, product, store, county, regression):
     '''
     do demographics features (based on store zip code) exploration
     '''
@@ -160,7 +160,7 @@ def do_explore_demographics(causal, transaction, product, store, county):
     numerical_commodity_tabs = st.tabs(['pasta', 'pasta sauce', 'syrups', 'pancake mixes'])
     for commodity, commodity_tab in zip(['pasta', 'pasta sauce', 'syrups', 'pancake mixes'], numerical_commodity_tabs):
         with commodity_tab:
-            demographics_df_scatter(df, commodity, numerical_cols)
+            demographics_df_scatter(df, commodity, numerical_cols, regression)
 
 
 @st.cache_data
@@ -372,11 +372,14 @@ Overall this preliminary exploration results are within human intuition.
 with st.expander('explore demographics variables'):
     st.text('(requires all main tables + at least one additional table)')
     st.text('ML will appear at bottom of section')
+    
+    if not st.session_state.get('demographics_ml', False):
+        st.session_state['demographics_ml'] = st.checkbox('do_demographics_ml')
 
     st.markdown("""
     ## Section Summary
     
-    #### Key takeaways
+#### Key takeaways
     
 Assuming no relationship of any kind, the key predictor of sales of each commodity type in a county should be either
 
@@ -419,8 +422,6 @@ Or for existing stores, stocking the right items might earn you more sales.
         For such simple linear models, I consider these R-squared unexpectedly predictive.
 
     """)
-    if not st.session_state.get('demographics_ml', False):
-        st.session_state['demographics_ml'] = st.checkbox('do_demographics_ml')
     if st.session_state.get('causal', pd.DataFrame([[False]])).any(axis=None) and \
             st.session_state.get('transactions', pd.DataFrame([[False]])).any(axis=None) and \
             st.session_state.get('product', pd.DataFrame([[False]])).any(axis=None) and \
@@ -429,4 +430,5 @@ Or for existing stores, stocking the right items might earn you more sales.
                                 st.session_state['transactions'].copy(),
                                 st.session_state['product'].copy(),
                                 st.session_state['store'].copy(),
-                                st.session_state['county'])
+                                st.session_state['county'],
+                                not st.session_state.get('demographics_ml', False))

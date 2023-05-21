@@ -73,7 +73,7 @@ def plot_states(df):
     return st.plotly_chart(fig)
 
 
-def demographics_df_scatter(df, commodity, numerical_cols):
+def demographics_df_scatter(df, commodity, numerical_cols, regression):
     '''
     display df and scatter plot for demographic features
     '''
@@ -99,7 +99,7 @@ def demographics_df_scatter(df, commodity, numerical_cols):
             correlation_df['revenue'].index) > 1 else None,
                                hover_data=['sales', 'weight_sold'], trendline='ols'))
 
-    if not st.session_state.get('demographics_ml', False):
+    if not regression:
         st.text('to do Linear Regression, check the box at top of section')
     else:
         st.divider()
