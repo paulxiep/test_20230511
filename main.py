@@ -372,7 +372,7 @@ Overall this preliminary exploration results are within human intuition.
 with st.expander('explore demographics variables'):
     st.text('(requires all main tables + at least one additional table)')
     st.text('ML will appear at bottom of section')
-    
+
     if not st.session_state.get('demographics_ml', False):
         st.session_state['demographics_ml'] = st.checkbox('do_demographics_ml')
 
@@ -431,4 +431,4 @@ Or for existing stores, stocking the right items might earn you more sales.
                                 st.session_state['product'].copy(),
                                 st.session_state['store'].copy(),
                                 st.session_state['county'],
-                                not st.session_state.get('demographics_ml', False))
+                                st.session_state.get('demographics_ml', False))
