@@ -1,3 +1,5 @@
 uszipcode
 streamlit
 plotly
+scipy
+scikit-learn
