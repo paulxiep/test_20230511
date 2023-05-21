@@ -3,3 +3,5 @@ streamlit
 plotly
 scipy
 scikit-learn
+lxml
+statsmodels

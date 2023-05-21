@@ -60,7 +60,6 @@ def do_join_3(causal, transaction, product, drop_store=True):
     return df
 
 
-@st.cache_data()
 def do_explore_demographics(causal, transaction, product, store, county):
     '''
     do demographics features (based on store zip code) exploration
