@@ -11,6 +11,9 @@
 
 3. Obtain the tables by entering above code as search term [on US census bureau page here](https://data.census.gov/)
 
+4. Run the app by the command ```streamlit run main.py```
+   
+
 It is very likely that the provided cloud app doesn't have enough (1 GB) memory, 
 
 so it is recommended you clone the repo to run locally
